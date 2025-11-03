@@ -4,6 +4,7 @@ date.textContent = time();
 let score, answer, level;
 const levelArr = document.getElementsByName("level");
 const scoreArr = [];
+let userName = nameInput.value
 // event listeners
 playBtn.addEventListener("click", play);
 guessBtn.addEventListener("click", makeGuess);
