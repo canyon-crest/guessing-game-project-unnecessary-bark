@@ -8,6 +8,10 @@ const scoreArr = [];
 nameBtn.addEventListener("click", nameFunction)
 playBtn.addEventListener("click", play);
 guessBtn.addEventListener("click", makeGuess);
+giveUpBtn.addEventListener("click", giveUp)
+function giveUp() {
+    score = level
+}
 function nameFunction() {
     nameBtn.disabled = true;
     userName = nameInput.value.charAt(0).toUpperCase() + nameInput.value.slice(1).toLowerCase()
@@ -22,6 +26,7 @@ function time() {
 function play(){
     playBtn.disabled = true;
     guessBtn.disabled = false;
+    giveUpBtn.disabled = false;
     guess.disabled = false;
     for(let i = 0; i < levelArr.length; i++){
         levelArr[i].disabled = true;
