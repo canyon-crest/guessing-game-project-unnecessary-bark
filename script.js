@@ -43,11 +43,11 @@ function makeGuess(){
     } 
     score++;
     if(userGuess > answer){
-        msg.textContent = "Too high!"
+        msg.textContent = "Too high " + userName + "!"
         guess.value = "";
     }
     else if(userGuess < answer){
-        msg.textContent = "Too low!"
+        msg.textContent = "Too low " + userName + "!"
         guess.value = "";
     }
     else {
