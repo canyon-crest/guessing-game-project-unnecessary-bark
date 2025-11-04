@@ -4,10 +4,14 @@ date.textContent = time();
 let score, answer, level;
 const levelArr = document.getElementsByName("level");
 const scoreArr = [];
-let userName = nameInput.value
 // event listeners
+nameBtn.addEventListener("click", nameFunction)
 playBtn.addEventListener("click", play);
 guessBtn.addEventListener("click", makeGuess);
+function nameFunction() {
+    nameBtn.disabled = true;
+    userName = nameInput.value.charAt(0).toUpperCase() + nameInput.value.slice(1).toLowerCase()
+}
 function time() {
     let d = new Date();
     // concatenate the date and time
@@ -26,14 +30,14 @@ function play(){
         }
     }
     answer = Number(Math.floor(Math.random()*level) + 1);
-    msg.textContent = "Guess a number 1-" + level;
+    msg.textContent = "Guess a number 1-" + level + ", " + userName + "!";
     guess.placeholder = answer;
     score = 0;
 }
 function makeGuess(){
     let userGuess = parseInt(guess.value);
     if(isNaN(userGuess) || userGuess < 1 || userGuess > level) {
-        msg.textContent = "INVALID, guess a number in between 1-" + level + "!";
+        msg.textContent = "INVALID, guess a number in between 1-" + level + ", " + userName + "!";
         guess.value = "";
         return;
     } 
@@ -47,7 +51,52 @@ function makeGuess(){
         guess.value = "";
     }
     else {
-        msg.textContent = "Correct! It took " + score + " tries."
+        if(level == 3){
+            if (score == 1){
+                userSkill = "Great job";
+            }
+            else if (score == 2){
+                userSkill = "Good job"
+            }
+            else {
+                userSkill = "Could've done better,"
+            }
+        }
+        else if (level == 10) {
+            if (score <= 3){
+            userSkill = "Great job";
+            }
+            else if(score <= 5){
+            userSkill = "Good job"
+            }
+            else {
+            userSkill = "Could've done better,"
+            }
+        }
+
+        else {
+            if (score <= 6){
+            userSkill = "Great job"
+            }
+            else if (score <= 9) {
+            userSkill = "Good job"
+            }
+            else {
+            userSkill = "Could've done better,"
+            }
+        }
+        if (userSkill == "Could've done better,") {
+        msg.textContent = "Correct! It took " + score + " tries." + " " + userSkill + " " + userName + ".";
+        }
+        else {
+            if (score == 1) {
+                msg.textContent = "Correct! It took " + score + " try." + " " + userSkill + " " + userName + "!";
+            }
+            else {
+                msg.textContent = "Correct! It took " + score + " tries." + " " + userSkill + " " + userName + "!";
+            }
+            
+        }
         reset();
         updateScore();
     }
