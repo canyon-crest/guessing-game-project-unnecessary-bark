@@ -5,12 +5,21 @@ dayOfYear.textContent = dayOfTheYear();
 let score, answer, level;
 const levelArr = document.getElementsByName("level");
 const scoreArr = [];
+const timeArr = [];
 // event listeners
-nameBtn.addEventListener("click", nameFunction)
+nameBtn.addEventListener("click", nameFunction);
 playBtn.addEventListener("click", play);
 guessBtn.addEventListener("click", makeGuess);
-giveUpBtn.addEventListener("click", giveUp)
+giveUpBtn.addEventListener("click", giveUp);
+function startTimer() {
+    start = new Date().getTime();
+}
+function stopTimer() {
+    stopGame = new Date().getTime();
+    gameTime = ((stopGame - start)/1000).toFixed(2);
+}
 function giveUp() {
+    stopTimer();
     if (level == 100) {
         score = 100;
     }
@@ -20,7 +29,7 @@ function giveUp() {
     else {
         score = 3;
     }
-    msg.textContent = "Because you gave up, your score is the amount of possible guesses, which is " + score + ". Better luck next time " + userName + "!"
+    msg.textContent = "Because you gave up, your score is the amount of possible guesses, which is " + score + ". Better luck next time " + userName + "! And your game took " + gameTime + " seconds!"
     guess.value = "";
     reset();
     updateScore();
@@ -102,6 +111,7 @@ function play(){
         return;
     }
     else {
+    startTimer();
     playBtn.disabled = true;
     guessBtn.disabled = false;
     giveUpBtn.disabled = false;
@@ -166,6 +176,7 @@ function makeGuess(){
         guess.value = "";
     }
     else {
+        stopTimer();
         if(level == 3){
             if (score == 1){
                 userSkill = "Great job";
@@ -201,14 +212,14 @@ function makeGuess(){
             }
         }
         if (userSkill == "Could've done better,") {
-        msg.textContent = "Correct! It took " + score + " tries." + " " + userSkill + " " + userName + ".";
+        msg.textContent = "Correct! It took " + score + " tries." + " " + userSkill + " " + userName + ".  Your game took " + gameTime + " seconds!";
         }
         else {
             if (score == 1) {
-                msg.textContent = "Correct! It took " + score + " try." + " " + userSkill + " " + userName + "!";
+                msg.textContent = "Correct! It took " + score + " try." + " " + userSkill + " " + userName + "! Your game took " + gameTime + " seconds!";
             }
             else {
-                msg.textContent = "Correct! It took " + score + " tries." + " " + userSkill + " " + userName + "!";
+                msg.textContent = "Correct! It took " + score + " tries." + " " + userSkill + " " + userName + "! Your game took " + gameTime + " seconds!";
             }
             
         }
@@ -223,16 +234,21 @@ function reset() {
     guess.disabled = true;
     playBtn.disabled = false;
     giveUpBtn.disabled = true;
+    start = 0;
+    stopGame = 0;
     for(let i = 0; i < levelArr.length; i++) {
         levelArr[i].disabled = false;
     }
 }
 function updateScore() {
     scoreArr.push(score); // adds current score to array of scores
+    timeArr.push(gameTime);
     wins.textContent = "Total wins: " + scoreArr.length;
     let sum = 0;
+    let timeSum = 0;
     scoreArr.sort((a, b) => a - b); // sorts ascending
-    // leaderboard?
+    timeArr.sort((a, b) => a - b);
+    // leaderboard
     const lb = document.getElementsByName("leaderboard");
     for(let i = 0; i < scoreArr.length; i++) {
         sum += scoreArr[i];
@@ -242,5 +258,14 @@ function updateScore() {
     }
     let avg = sum/scoreArr.length;
     avgScore.textContent = "Average Score: " + avg.toFixed(2);
+    const tlb = document.getElementsByName("timeLeaderboard");
+    for(let i = 0; i < timeArr.length; i++) {
+        timeSum += timeArr[i];
+        if(i < tlb.length) {
+            tlb[i].textContent = timeArr[i];
+        }
+    }
+    let timeAvg = timeSum/timeArr.length;
+    avgTime.textContent = "Average Time: " + timeAvg.toFixed(2);
 
 }
