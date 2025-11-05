@@ -1,5 +1,6 @@
 // time
 date.textContent = time();
+dayOfYear.textContent = dayOfTheYear();
 // global variables/constants
 let score, answer, level;
 const levelArr = document.getElementsByName("level");
@@ -35,59 +36,64 @@ function nameFunction() {
 }
 function time() {
     let d = new Date();
+    let str = d.getMonth()+1 + "/" + d.getDate() + "/" + d.getFullYear();
+    // update here
+    return str;
+}
+function dayOfTheYear() {
+    let d = new Date();
     month = "";
     day = "";
-    if ((d.getMonth() + 1) = 1) {
+    if ((d.getMonth() + 1) == 1) {
         month = "January";
     }
-    else if ((d.getMonth() + 1) = 2) {
+    else if ((d.getMonth() + 1) == 2) {
         month = "February";
     }
-    else if ((d.getMonth() + 1) = 3) {
+    else if ((d.getMonth() + 1) == 3) {
         month = "March";
     }
-    else if ((d.getMonth() + 1) = 4) {
+    else if ((d.getMonth() + 1) == 4) {
         month = "April";
     }
-    else if ((d.getMonth() + 1) = 5) {
+    else if ((d.getMonth() + 1) == 5) {
         month = "May";
     }
-    else if ((d.getMonth() + 1) = 6) {
+    else if ((d.getMonth() + 1) == 6) {
         month = "June";
     }
-    else if ((d.getMonth() + 1) = 7) {
+    else if ((d.getMonth() + 1) == 7) {
         month = "July";
     }
-    else if ((d.getMonth() + 1) = 8) {
+    else if ((d.getMonth() + 1) == 8) {
         month = "August";
     }
-    else if ((d.getMonth() + 1) = 9) {
+    else if ((d.getMonth() + 1) == 9) {
         month = "September";
     }
-    else if ((d.getMonth() + 1) = 10) {
+    else if ((d.getMonth() + 1) == 10) {
         month = "October";
     }
-    else if ((d.getMonth() + 1) = 11) {
+    else if ((d.getMonth() + 1) == 11) {
         month = "November";
     }
     else {
         month = "December";
     }
 
-    if ((d.getDate()) == 1,21,31) {
+    if (d.getDate() == 1 || d.getDate() == 21 || d.getDate() == 31) {
         day = d.getDate() + "st"
     }
-    else if ((d.getDate()) == 2,22) {
+    else if ((d.getDate()) == 2 || d.getDate() == 22) {
         day = d.getDate() + "nd"
     }
-    else if ((d.getDate()) == 3,23) {
+    else if ((d.getDate()) == 3 || d.getDate() == 23) {
         day = d.getDate() + "rd"
     }
     else {
         day = d.getDate() + "th"
     }
-    let str = d.getMonth()+1 + "/" + d.getDate() + "/" + d.getFullYear();
-    // update here
+    let str = month + " " + day;
     return str;
 }
 function play(){
