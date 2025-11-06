@@ -7,11 +7,12 @@ const levelArr = document.getElementsByName("level");
 const scoreArr = [];
 const timeArr = [];
 let timeSum = 0;
-// event listeners
+// event listeners, when a user clicks the buttons that these variables are linked to, the function linked to them occurs
 nameBtn.addEventListener("click", nameFunction);
 playBtn.addEventListener("click", play);
 guessBtn.addEventListener("click", makeGuess);
 giveUpBtn.addEventListener("click", giveUp);
+// timer at the top of the screen for the hour, minute, and second of the day that updates every second
 function updateTimer() {
     const now = new Date();
     const hours = String(now.getHours()).padStart(2, '0');
@@ -22,6 +23,7 @@ function updateTimer() {
 }
 updateTimer();
 let timerInterval = setInterval(updateTimer, 1000);
+// the following two functions are for the timer that determine how long each round is 
 function startTimer() {
     start = new Date().getTime();
 }
@@ -31,6 +33,8 @@ function stopTimer() {
     timeSum += Number(gameTime);
 }
 function giveUp() {
+    // if you press the give up button after starting to play this function happens
+    // the user's score is set to all possible guesses or range when pressing give up
     stopTimer();
     if (level == 100) {
         score = 100;
@@ -43,13 +47,16 @@ function giveUp() {
     }
     msg.textContent = "Because you gave up, your score is the amount of possible guesses, which is " + score + ". Better luck next time " + userName + "! And your game took " + gameTime + " seconds!"
     guess.value = "";
+    // after the user gives up, almost everything is reset except the user's name and the score is updated
     reset();
     updateScore();
 }
 function nameFunction() {
+    // asks the user for their first name and cases it correctly
     nameBtn.disabled = true;
     userName = nameInput.value.charAt(0).toUpperCase() + nameInput.value.slice(1).toLowerCase()
     if (userName == "") {
+        // user must enter a name to play
         msg.textContent = "Please enter a name!"
         nameBtn.disabled = false;
         return;
@@ -58,10 +65,10 @@ function nameFunction() {
 function time() {
     let d = new Date();
     let str = d.getMonth()+1 + "/" + d.getDate() + "/" + d.getFullYear();
-    // update here
     return str;
 }
 function dayOfTheYear() {
+    // determines the month and what suffix to add to the day of the month
     let d = new Date();
     month = "";
     day = "";
@@ -119,6 +126,7 @@ function dayOfTheYear() {
 }
 function play(){
     if (nameBtn.disabled == false) {
+        // user must have a name to play
         msg.textContent = "Please enter a name first!";
         return;
     }
@@ -134,7 +142,9 @@ function play(){
             level = levelArr[i].value;
         }
     }
+    // determines the answer
     answer = Number(Math.floor(Math.random()*level) + 1);
+    // tells the user directions on how to play the game based on the level they chose
     msg.textContent = "Guess a number 1-" + level + ", " + userName + "!";
     score = 0;
     }
@@ -142,6 +152,7 @@ function play(){
 function makeGuess(){
     let userGuess = parseInt(guess.value);
     temperature = "";
+    // hot, warm, cold system
     if (level == 100){
         if (Math.abs(answer-userGuess)<= 10) {
             temperature = "hot";
@@ -172,12 +183,14 @@ function makeGuess(){
             temperature = "warm";
         }
     }
+    // determines whether the user's guess is a number
     if(isNaN(userGuess) || userGuess < 1 || userGuess > level) {
         msg.textContent = "INVALID, guess a number in between 1-" + level + ", " + userName + "!";
         guess.value = "";
         return;
     } 
     score++;
+    // too high too low system
     if(userGuess > answer){
         msg.textContent = "Too high " + userName + "! You are " + temperature + "!";
         guess.value = "";
@@ -187,6 +200,7 @@ function makeGuess(){
         guess.value = "";
     }
     else {
+        // determines how to judge the user's game
         stopTimer();
         if(level == 3){
             if (score == 1){
@@ -234,11 +248,13 @@ function makeGuess(){
             }
             
         }
+        // after the user gets the right answer, almost everything gets reset except the user's name and the score is updated
         reset();
         updateScore();
     }
 }
 function reset() {
+    // resets everything back to normal other than the user's name after they win
     guessBtn.disabled = true;
     guess.value = "";
     guess.disabled = true;
@@ -252,7 +268,7 @@ function reset() {
 }
 function updateScore() {
     scoreArr.push(score); // adds current score to array of scores
-    timeArr.push(gameTime);
+    timeArr.push(gameTime); // adds current time to array of times
     wins.textContent = "Total wins: " + scoreArr.length;
     let sum = 0;
     scoreArr.sort((a, b) => a - b); // sorts ascending

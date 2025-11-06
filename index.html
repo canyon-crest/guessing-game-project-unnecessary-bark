@@ -5,37 +5,40 @@
     <script src="script.js" defer></script>
   </head>
   <body>
+    <!-- timers and dates -->
     <p id="date"></p>
     <p id="dayOfYear"></p>
     <p id="timerDisplay"></p>
-
+    <!-- name input -->
     <h3>What is your first name?</h3>
     <input type="text" id="nameInput">
     <button id="nameBtn">Enter</button>
-
+    <!-- user chooses what level to choose here with these radio buttons -->
     <h3>Level</h3>
     <input type="radio" name="level" id="e" value="3" checked><label for="e">Easy</label>
     <input type="radio" name="level" id="m" value="10"><label for="m">Medium</label>
     <input type="radio" name="level" id="h" value="100"><label for="h">Hard</label>
-
+    <!-- play button -->
     <button id="playBtn">Play</button>
 
     <h3 id="msg">Select a Level</h3>
+    <!-- where the user inputs guesses and where they can choose to give up -->
     <input type="text" id="guess">
     <button id="guessBtn" disabled>Guess</button>
     <button id="giveUpBtn" disabled>Give Up</button>
-
+    <!-- stats for total wins, average score, and average time per round -->
     <h3>Stats</h3>
     <p id="wins">Total wins: 0</p>
     <p id="avgScore">Average Score: </p>
     <p id="avgTime">Average Time: </p>
-
-    <h3>Leaderboard</h3>
+    <!-- leaderboard for lowest scores -->
+    <h3>Lowest Scores</h3>
     <ol>
       <li name="leaderboard">100</li>
       <li name="leaderboard">100</li>
       <li name="leaderboard">100</li>
     </ol>
+    <!-- leaderboard for fastest times -->
     <h3>Fastest Times</h3>
     <ol>
       <li name="timeLeaderboard">1000</li>
