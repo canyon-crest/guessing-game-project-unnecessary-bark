@@ -6,17 +6,29 @@ let score, answer, level;
 const levelArr = document.getElementsByName("level");
 const scoreArr = [];
 const timeArr = [];
+let timeSum = 0;
 // event listeners
 nameBtn.addEventListener("click", nameFunction);
 playBtn.addEventListener("click", play);
 guessBtn.addEventListener("click", makeGuess);
 giveUpBtn.addEventListener("click", giveUp);
+function updateTimer() {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    const timeString = `${hours}:${minutes}:${seconds}`;
+    document.getElementById("timerDisplay").textContent = timeString;
+}
+updateTimer();
+let timerInterval = setInterval(updateTimer, 1000);
 function startTimer() {
     start = new Date().getTime();
 }
 function stopTimer() {
     stopGame = new Date().getTime();
     gameTime = ((stopGame - start)/1000).toFixed(2);
+    timeSum += Number(gameTime);
 }
 function giveUp() {
     stopTimer();
@@ -124,7 +136,6 @@ function play(){
     }
     answer = Number(Math.floor(Math.random()*level) + 1);
     msg.textContent = "Guess a number 1-" + level + ", " + userName + "!";
-    guess.placeholder = answer;
     score = 0;
     }
 }
@@ -230,7 +241,6 @@ function makeGuess(){
 function reset() {
     guessBtn.disabled = true;
     guess.value = "";
-    guess.placeholder = "";
     guess.disabled = true;
     playBtn.disabled = false;
     giveUpBtn.disabled = true;
@@ -245,7 +255,6 @@ function updateScore() {
     timeArr.push(gameTime);
     wins.textContent = "Total wins: " + scoreArr.length;
     let sum = 0;
-    let timeSum = 0;
     scoreArr.sort((a, b) => a - b); // sorts ascending
     timeArr.sort((a, b) => a - b);
     // leaderboard
@@ -256,16 +265,18 @@ function updateScore() {
             lb[i].textContent = scoreArr[i];
         }
     }
+    // average score
     let avg = sum/scoreArr.length;
     avgScore.textContent = "Average Score: " + avg.toFixed(2);
+    // time leaderboard
     const tlb = document.getElementsByName("timeLeaderboard");
     for(let i = 0; i < timeArr.length; i++) {
-        timeSum += timeArr[i];
         if(i < tlb.length) {
             tlb[i].textContent = timeArr[i];
         }
     }
-    let timeAvg = timeSum/timeArr.length;
+    // average time per round
+    let timeAvg = timeSum/scoreArr.length;
     avgTime.textContent = "Average Time: " + timeAvg.toFixed(2);
 
 }
